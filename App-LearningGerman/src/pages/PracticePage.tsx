@@ -1,15 +1,17 @@
 import React, { useState, useMemo } from 'react';
-import { vocabs } from '../data/vocabs';
-import { QuizQuestion } from '../types';
+import { getVocabs } from '../data/vocabs';
+import { QuizQuestion, Vocab, Language } from '../types';
 
 interface PracticePageProps {
+  language: Language;
+  vocabs: Vocab[];
   onBack: () => void;
 }
 
-function buildQuestions(): QuizQuestion[] {
-  const shuffled = [...vocabs].sort(() => Math.random() - 0.5);
+function buildQuestions(practiceVocabs: Vocab[], allVocabs: Vocab[]): QuizQuestion[] {
+  const shuffled = [...practiceVocabs].sort(() => Math.random() - 0.5);
   return shuffled.map(vocab => {
-    const others = vocabs
+    const others = allVocabs
       .filter(v => v.id !== vocab.id)
       .sort(() => Math.random() - 0.5)
       .slice(0, 3)
@@ -21,8 +23,9 @@ function buildQuestions(): QuizQuestion[] {
   });
 }
 
-const PracticePage: React.FC<PracticePageProps> = ({ onBack }) => {
-  const questions = useMemo(buildQuestions, []);
+const PracticePage: React.FC<PracticePageProps> = ({ language, vocabs: practiceVocabs, onBack }) => {
+  const allVocabs = useMemo(() => getVocabs(language), [language]);
+  const questions = useMemo(() => buildQuestions(practiceVocabs, allVocabs), [practiceVocabs, allVocabs]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);

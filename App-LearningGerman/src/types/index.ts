@@ -1,4 +1,12 @@
-export type AppMode = 'home' | 'vocab' | 'practice';
+export type Language = 'de' | 'en';
+export type AppMode = 'home' | 'language' | 'parts' | 'vocab' | 'practice' | 'scenario' | 'conversation';
+export type ActivityType = 'vocab' | 'practice' | 'conversation';
+
+export interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
 
 export interface Vocab {
   id: number;

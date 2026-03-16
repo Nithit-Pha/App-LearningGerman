@@ -1,17 +1,24 @@
 import React from 'react';
-import { AppMode } from '../types';
+import { ActivityType, Language } from '../types';
 
 interface HomePageProps {
-  onSelectMode: (mode: AppMode) => void;
+  language: Language;
+  onSelectMode: (mode: ActivityType) => void;
+  onChangeLanguage: () => void;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ onSelectMode }) => {
+const flagLabel: Record<Language, string> = { de: '🇩🇪 Deutsch', en: '🇬🇧 English' };
+
+const HomePage: React.FC<HomePageProps> = ({ language, onSelectMode, onChangeLanguage }) => {
   return (
     <div className="home-page">
       <div className="home-header">
         <div className="logo-mark">V</div>
         <h1 className="home-title">VocabLab</h1>
         <p className="home-subtitle">Master words. Build fluency.</p>
+        <button className="lang-switch-btn" onClick={onChangeLanguage}>
+          {flagLabel[language]} ↕
+        </button>
       </div>
 
       <div className="mode-grid">
@@ -46,22 +53,37 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectMode }) => {
           </div>
           <div className="card-arrow">→</div>
         </button>
+
+        <button className="mode-card card-convo" onClick={() => onSelectMode('conversation')}>
+          <div className="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              <path d="M8 10h8M8 14h5" />
+            </svg>
+          </div>
+          <div className="card-label">
+            <span className="card-number">03</span>
+            <h2>Conversation</h2>
+            <p>Chat with AI in real-life scenarios to achieve goals</p>
+          </div>
+          <div className="card-arrow">→</div>
+        </button>
       </div>
 
       <div className="stats-bar">
         <div className="stat">
-          <span className="stat-value">8</span>
+          <span className="stat-value">30</span>
           <span className="stat-label">Words</span>
         </div>
         <div className="stat-divider" />
         <div className="stat">
-          <span className="stat-value">2</span>
+          <span className="stat-value">3</span>
           <span className="stat-label">Modes</span>
         </div>
         <div className="stat-divider" />
         <div className="stat">
-          <span className="stat-value">∞</span>
-          <span className="stat-label">Progress</span>
+          <span className="stat-value">6</span>
+          <span className="stat-label">Scenarios</span>
         </div>
       </div>
     </div>

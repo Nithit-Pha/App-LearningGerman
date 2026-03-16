@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
-import { AppMode } from '../types';
-import { vocabs } from '../data/vocabs';
+import React, { useState, useEffect } from 'react';
+import { Vocab } from '../types';
 import FlashCard from '../components/FlashCard';
 
 interface VocabPageProps {
+  vocabs: Vocab[];
   onBack: () => void;
 }
 
-const VocabPage: React.FC<VocabPageProps> = ({ onBack }) => {
+const VocabPage: React.FC<VocabPageProps> = ({ vocabs, onBack }) => {
   const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    setIndex(0);
+  }, [vocabs]);
+
+  if (!vocabs || vocabs.length === 0) return null;
 
   return (
     <div className="page vocab-page">
