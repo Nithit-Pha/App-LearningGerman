@@ -904,17 +904,20 @@ body {
   background: var(--surface);
   border: 1px solid rgba(96,200,240,0.25);
   border-radius: 28px;
-  padding: 48px 40px;
+  padding: 32px 28px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  max-width: 340px;
-  width: 90%;
+  gap: 14px;
+  max-width: 380px;
+  width: 94%;
+  max-height: 90vh;
+  overflow-y: auto;
   box-shadow: 0 0 80px rgba(96,200,240,0.15);
   animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
 
 @keyframes popIn {
   from { transform: scale(0.7); opacity: 0; }
@@ -1156,3 +1159,264 @@ body {
   font-weight: 700;
   flex-shrink: 0;
 }
+
+/* ─── VOCAB TASK BANNER ─── */
+.vocab-task-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(255,255,255,0.04);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 10px 24px;
+  transition: background 0.4s;
+}
+
+.vocab-task-banner.vocab-used {
+  background: rgba(52,211,153,0.08);
+  border-color: rgba(52,211,153,0.2);
+}
+
+.vocab-task-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vocab-task-icon { font-size: 1.1rem; }
+
+.vocab-task-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.vocab-task-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.vocab-task-word {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.vocab-task-translation {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.vocab-task-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.vocab-situational-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--accent-c);
+  background: rgba(96,200,240,0.12);
+  border-radius: 100px;
+  padding: 2px 8px;
+}
+
+.vocab-hint {
+  font-size: 0.68rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.vocab-used-tick {
+  font-size: 0.72rem;
+  color: #34d399;
+  font-weight: 600;
+  animation: slideUp 0.3s ease;
+}
+
+/* vocab check row in goal overlay */
+.vocab-check-row.missed .goal-overlay-tick {
+  background: var(--wrong);
+}
+
+/* ─── AI REVIEW SECTION ─── */
+.review-section {
+  width: 100%;
+  margin: 8px 0 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.review-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text);
+  text-align: left;
+}
+
+.review-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  padding: 8px 0;
+}
+
+.review-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-top-color: var(--accent-c);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.review-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.review-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.review-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-card-icon { font-size: 1rem; }
+
+.review-card-name {
+  flex: 1;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.review-card-score {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Score bar */
+.review-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 100px;
+  position: relative;
+  overflow: visible;
+}
+
+.review-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 0 8px currentColor;
+}
+
+.review-bar-label {
+  position: absolute;
+  right: 0;
+  top: -18px;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.review-note {
+  font-size: 0.76rem;
+  color: var(--muted);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.review-error {
+  font-size: 0.78rem;
+  color: var(--wrong);
+  text-align: center;
+  padding: 8px 0;
+}
+
+/* ─── SITUATION PANEL ─── */
+.situation-panel {
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.situation-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.situation-toggle:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.situation-toggle-icon { font-size: 0.9rem; }
+
+.situation-toggle-label { flex: 1; }
+
+.situation-toggle-arrow {
+  font-size: 0.55rem;
+  color: var(--muted);
+  transition: transform 0.2s;
+}
+
+.situation-body {
+  padding: 0 24px 14px;
+  animation: slideUp 0.2s ease;
+}
+
+.situation-text {
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.65;
+  background: rgba(96,200,240,0.05);
+  border-left: 3px solid rgba(96,200,240,0.4);
+  border-radius: 0 10px 10px 0;
+  padding: 10px 14px;
+}
+
+

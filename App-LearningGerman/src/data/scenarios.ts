@@ -1,11 +1,20 @@
 import { Language } from '../types';
 
+export interface ScenarioVocab {
+  word: string;
+  translation: string;
+}
+
 export interface Scenario {
   id: string;
   title: string;
   subtitle: string;
   icon: string;
   goal: string;
+  /** 2–3 sentence scene-setter shown to the learner before the chat. */
+  situation: string;
+  /** 5 situational vocab words; one is picked randomly per session. */
+  vocabPool: ScenarioVocab[];
   /** At least 3 sub-goals. The last one is a special/bonus task. */
   subGoals: string[];
   systemPrompt: string;
@@ -18,6 +27,14 @@ export const germanScenarios: Scenario[] = [
     subtitle: 'Book a hotel room',
     icon: '🏨',
     goal: 'Successfully book a hotel room',
+    situation: 'Du bist gerade in München angekommen und stehst an der Rezeption eines Hotels. Du hast online kein Zimmer gebucht und möchtest spontan eines reservieren. Der Rezeptionist Klaus wartet auf dich.',
+    vocabPool: [
+      { word: 'Doppelzimmer', translation: 'double room' },
+      { word: 'Frühstück', translation: 'breakfast' },
+      { word: 'verfügbar', translation: 'available' },
+      { word: 'Aufpreis', translation: 'surcharge / extra charge' },
+      { word: 'Nichtraucherzimmer', translation: 'non-smoking room' },
+    ],
     subGoals: [
       'Tell the receptionist your dates',
       'Say how many guests',
@@ -39,6 +56,14 @@ Only emit each tag once, the first time the goal is reached. When all three tags
     subtitle: 'Order food at a restaurant',
     icon: '🍽️',
     goal: 'Order a full meal and pay the bill',
+    situation: 'Es ist Freitagabend und du sitzt in einem gemütlichen Restaurant in Berlin. Die Kellnerin Lena bringt dir die Speisekarte und lächelt dich freundlich an. Du hast Hunger und möchtest ein komplettes Abendessen bestellen.',
+    vocabPool: [
+      { word: 'Tagesgericht', translation: 'dish of the day' },
+      { word: 'Vorspeise', translation: 'starter / appetiser' },
+      { word: 'empfehlen', translation: 'to recommend' },
+      { word: 'allergisch', translation: 'allergic' },
+      { word: 'Trinkgeld', translation: 'tip / gratuity' },
+    ],
     subGoals: [
       'Order your main course',
       'Order a drink',
@@ -60,6 +85,14 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
     subtitle: 'Visit the doctor',
     icon: '🏥',
     goal: 'Describe your symptoms and get a diagnosis',
+    situation: 'Du fühlst dich seit einigen Tagen nicht gut und hast endlich einen Termin beim Hausarzt bekommen. Dr. Müller ruft deinen Namen auf und bittet dich, im Behandlungszimmer Platz zu nehmen. Erkläre ihm, was dich plagt.',
+    vocabPool: [
+      { word: 'schwindelig', translation: 'dizzy' },
+      { word: 'Übelkeit', translation: 'nausea' },
+      { word: 'Fieber', translation: 'fever' },
+      { word: 'Rezept', translation: 'prescription' },
+      { word: 'Schmerzmittel', translation: 'painkiller' },
+    ],
     subGoals: [
       'Describe your main symptom',
       'Say how long you have had it',
@@ -81,6 +114,14 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
     subtitle: 'Ask for help finding items',
     icon: '🛒',
     goal: 'Find 3 items and check out',
+    situation: 'Du bist in einem großen REWE-Supermarkt in Frankfurt und kennst dich noch nicht gut aus. Du brauchst mehrere Artikel für ein Abendessen und ein Mitarbeiter steht in der Nähe, bereit dir zu helfen.',
+    vocabPool: [
+      { word: 'Sonderangebot', translation: 'special offer / deal' },
+      { word: 'Abteilung', translation: 'section / aisle' },
+      { word: 'Kassenbon', translation: 'receipt' },
+      { word: 'Pfand', translation: 'bottle deposit' },
+      { word: 'Bioprodukte', translation: 'organic products' },
+    ],
     subGoals: [
       'Ask where to find a product',
       'Find a second item',
@@ -102,6 +143,14 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
     subtitle: 'Buy a train ticket',
     icon: '🚆',
     goal: 'Buy a train ticket to Berlin',
+    situation: 'Du stehst am Schalter am Hamburger Hauptbahnhof. Dein Zug nach Berlin fährt in einer Stunde und du musst noch ein Ticket kaufen. Der Beamte am Schalter schaut dich erwartungsvoll an.',
+    vocabPool: [
+      { word: 'Hin- und Rückfahrt', translation: 'return ticket' },
+      { word: 'Verspätung', translation: 'delay' },
+      { word: 'Fensterplatz', translation: 'window seat' },
+      { word: 'Umstieg', translation: 'transfer / connection' },
+      { word: 'Bahnsteig', translation: 'platform' },
+    ],
     subGoals: [
       'Say your destination',
       'Choose a travel class (1st or 2nd)',
@@ -123,6 +172,14 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
     subtitle: 'Rent an apartment',
     icon: '🏠',
     goal: 'Inquire and arrange a viewing',
+    situation: 'Du hast eine Anzeige für eine 2-Zimmer-Wohnung in Köln online gesehen und rufst jetzt den Vermieter Herr Fischer an. Die Wohnung klingt perfekt für dich, aber du hast noch ein paar wichtige Fragen, bevor du dich entscheidest.',
+    vocabPool: [
+      { word: 'Nebenkosten', translation: 'utility bills / running costs' },
+      { word: 'Kaution', translation: 'security deposit' },
+      { word: 'möbliert', translation: 'furnished' },
+      { word: 'Grundriss', translation: 'floor plan' },
+      { word: 'Besichtigung', translation: 'viewing / inspection' },
+    ],
     subGoals: [
       'Ask about the monthly rent',
       'Schedule a viewing appointment',
@@ -147,6 +204,14 @@ export const englishScenarios: Scenario[] = [
     subtitle: 'Reserve a room at a hotel',
     icon: '🏨',
     goal: 'Successfully book a hotel room',
+    situation: "You've just arrived in London after a long flight and you're standing at the front desk of a hotel near the city centre. You didn't book in advance and hope they have a room available. The receptionist James greets you warmly.",
+    vocabPool: [
+      { word: 'adjoining rooms', translation: 'connected rooms next to each other' },
+      { word: 'complimentary', translation: 'free / included in the price' },
+      { word: 'amenities', translation: 'facilities (pool, gym, etc.)' },
+      { word: 'concierge', translation: 'hotel helper for bookings & info' },
+      { word: 'checkout time', translation: 'time you must leave the room by' },
+    ],
     subGoals: [
       'Tell the receptionist your dates',
       'Say how many guests',
@@ -168,6 +233,14 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
     subtitle: 'Order food and pay the bill',
     icon: '🍽️',
     goal: 'Order a full meal and pay the bill',
+    situation: "It's a Saturday evening and you're seated at a cosy English restaurant in Oxford. Your waiter Sarah hands you the menu with a smile. You're hungry after a day of sightseeing and ready to order a proper meal.",
+    vocabPool: [
+      { word: 'specials', translation: 'today\'s extra dishes not on the menu' },
+      { word: 'allergen', translation: 'a substance that causes an allergic reaction' },
+      { word: 'garnish', translation: 'decoration added to a dish' },
+      { word: 'palate', translation: 'your sense of taste' },
+      { word: 'corkage', translation: 'fee for bringing your own wine' },
+    ],
     subGoals: [
       'Order your main course',
       'Order a drink',
@@ -189,6 +262,14 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
     subtitle: 'Describe symptoms and get advice',
     icon: '🏥',
     goal: 'Describe your symptoms and get a diagnosis',
+    situation: "You haven't been feeling well for a few days and have managed to get a GP appointment. Dr. Smith calls you in and asks you to sit down. Be clear and specific about your symptoms so he can help you.",
+    vocabPool: [
+      { word: 'dizzy', translation: 'feeling like everything is spinning' },
+      { word: 'nausea', translation: 'feeling like you need to vomit' },
+      { word: 'prescription', translation: 'a doctor\'s written order for medicine' },
+      { word: 'chronic', translation: 'long-lasting / persisting over time' },
+      { word: 'referral', translation: 'being sent to a specialist' },
+    ],
     subGoals: [
       'Describe your main symptom',
       'Say how long you have had it',
@@ -210,6 +291,14 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
     subtitle: 'Ask for help finding items',
     icon: '🛒',
     goal: 'Find items and check out',
+    situation: "You're in a large Tesco supermarket and you're not familiar with the layout at all. You need several items for a dinner party tonight and a member of staff is nearby ready to assist.",
+    vocabPool: [
+      { word: 'aisle', translation: 'the passage between shelves' },
+      { word: 'expiry date', translation: 'the date food must be used by' },
+      { word: 'loyalty card', translation: 'a card that earns you points / discounts' },
+      { word: 'perishable', translation: 'food that goes off quickly' },
+      { word: 'bulk buy', translation: 'buying a large quantity to save money' },
+    ],
     subGoals: [
       'Ask where to find a product',
       'Find a second item',
@@ -231,6 +320,14 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
     subtitle: 'Purchase a ticket at the station',
     icon: '🚆',
     goal: 'Buy a train ticket to London',
+    situation: "You're at Manchester Piccadilly station and need to catch a train to London this afternoon. You head to the ticket window where a staff member is ready to help. You want to get the best deal for your journey.",
+    vocabPool: [
+      { word: 'platform', translation: 'the area where you board the train' },
+      { word: 'peak hours', translation: 'busy times when fares are higher' },
+      { word: 'railcard', translation: 'a discount card for train travel' },
+      { word: 'itinerary', translation: 'a planned route / schedule' },
+      { word: 'interchange', translation: 'a station where you change trains' },
+    ],
     subGoals: [
       'Say your destination',
       'Choose a travel class',
@@ -252,6 +349,14 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
     subtitle: 'Inquire about and view a flat',
     icon: '🏠',
     goal: 'Get info and arrange a viewing',
+    situation: "You spotted an online listing for a one-bedroom flat in central Edinburgh that looks perfect. You've called the landlord Mr. Thompson to find out more details before committing to a viewing.",
+    vocabPool: [
+      { word: 'deposit', translation: 'upfront money held as security' },
+      { word: 'tenancy', translation: 'the period you rent the property' },
+      { word: 'utilities', translation: 'water, gas, and electricity costs' },
+      { word: 'inventory', translation: 'a list of items in the property' },
+      { word: 'letting agent', translation: 'an agency that manages rentals' },
+    ],
     subGoals: [
       'Ask about the monthly rent',
       'Schedule a viewing appointment',
