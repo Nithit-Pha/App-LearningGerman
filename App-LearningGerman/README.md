@@ -6,7 +6,22 @@ Built with **React 18 + TypeScript + Vite**.
 
 ---
 
-## Getting Started
+## Quick Start (Windows — Recommended)
+
+If you just want to run the app without touching a terminal:
+
+1. Install prerequisites (first time only):
+   - [Node.js](https://nodejs.org) (LTS version)
+   - [Ollama](https://ollama.com) (for AI Conversation mode)
+   - Run once in a terminal: `npm install` and `ollama pull llama3.2`
+2. **Double-click `Start App.bat`** — it starts Ollama and the app automatically.
+3. The app opens in your browser at [http://localhost:5173](http://localhost:5173).
+
+> Keep the launcher window open while using the app. Close it to stop everything.
+
+---
+
+## Getting Started (Manual)
 
 ```bash
 npm install
@@ -70,13 +85,9 @@ Each sub-goal checks off with a ✓ tick in real time as the AI detects you've a
    ```bash
    ollama pull llama3.2
    ```
-3. Start the server (keep this running):
-   ```bash
-   ollama serve
-   ```
-4. Verify at [http://localhost:11434](http://localhost:11434) — you should see `Ollama is running`.
+3. Verify at [http://localhost:11434](http://localhost:11434) — you should see `Ollama is running`.
 
-> You need two terminals open: one for `ollama serve` and one for `npm run dev`.
+> **Using `Start App.bat`?** It starts Ollama automatically — no extra terminal needed.
 
 ---
 
