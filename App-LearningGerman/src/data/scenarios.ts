@@ -36,9 +36,9 @@ export const germanScenarios: Scenario[] = [
       { word: 'Nichtraucherzimmer', translation: 'non-smoking room' },
     ],
     subGoals: [
-      'Tell the receptionist your dates',
-      'Say how many guests',
-      '🎁 Special: Ask for a birthday surprise decoration in the room',
+      'Nenne dem Rezeptionisten deine Reisedaten',
+      'Sage, für wie viele Gäste das Zimmer ist',
+      '🎁 Spezial: Bitte um eine Geburtstagsüberraschung im Zimmer',
     ],
     systemPrompt: `You are a hotel receptionist in Germany named Klaus. Speak ONLY in German. Be helpful and natural.
 Keep replies short (2-4 sentences max).
@@ -65,9 +65,9 @@ Only emit each tag once, the first time the goal is reached. When all three tags
       { word: 'Trinkgeld', translation: 'tip / gratuity' },
     ],
     subGoals: [
-      'Order your main course',
-      'Order a drink',
-      '🎁 Special: Ask the waiter for a dish recommendation',
+      'Bestelle dein Hauptgericht',
+      'Bestelle ein Getränk',
+      '🎁 Spezial: Bitte die Bedienung um eine Empfehlung',
     ],
     systemPrompt: `You are a waiter at a German restaurant named Lena. Speak ONLY in German. Be friendly and natural.
 Keep replies short (2-4 sentences max).
@@ -94,9 +94,9 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
       { word: 'Schmerzmittel', translation: 'painkiller' },
     ],
     subGoals: [
-      'Describe your main symptom',
-      'Say how long you have had it',
-      '🎁 Special: Ask if you need a sick note (Krankschreibung)',
+      'Beschreibe dein Hauptsymptom',
+      'Sage, wie lange du es schon hast',
+      '🎁 Spezial: Frage, ob du eine Krankschreibung benötigst',
     ],
     systemPrompt: `You are a German doctor named Dr. Müller. Speak ONLY in German. Be professional.
 Keep replies short (2-4 sentences max).
@@ -123,9 +123,9 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
       { word: 'Bioprodukte', translation: 'organic products' },
     ],
     subGoals: [
-      'Ask where to find a product',
-      'Find a second item',
-      '🎁 Special: Ask if there is a discount or sale today',
+      'Frage, wo du ein Produkt finden kannst',
+      'Finde einen zweiten Artikel',
+      '🎁 Spezial: Frage, ob es heute ein Sonderangebot gibt',
     ],
     systemPrompt: `You are a supermarket assistant in Germany. Speak ONLY in German.
 Keep replies short (2-4 sentences max).
@@ -152,9 +152,9 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
       { word: 'Bahnsteig', translation: 'platform' },
     ],
     subGoals: [
-      'Say your destination',
-      'Choose a travel class (1st or 2nd)',
-      '🎁 Special: Ask if there is a group discount',
+      'Nenne dein Reiseziel',
+      'Wähle eine Reiseklasse (1. oder 2. Klasse)',
+      '🎁 Spezial: Frage, ob es einen Gruppenrabatt gibt',
     ],
     systemPrompt: `You are a ticket agent at a German train station. Speak ONLY in German.
 Keep replies short (2-4 sentences max).
@@ -181,9 +181,9 @@ When all three goals are reached, also append "[GOAL_REACHED]".`,
       { word: 'Besichtigung', translation: 'viewing / inspection' },
     ],
     subGoals: [
-      'Ask about the monthly rent',
-      'Schedule a viewing appointment',
-      '🎁 Special: Ask if pets are allowed',
+      'Frage nach der monatlichen Miete',
+      'Vereinbare einen Besichtigungstermin',
+      '🎁 Spezial: Frage, ob Haustiere erlaubt sind',
     ],
     systemPrompt: `You are a German landlord named Herr Fischer. Speak ONLY in German.
 Keep replies short (2-4 sentences max).

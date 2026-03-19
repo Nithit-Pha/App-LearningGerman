@@ -42,17 +42,18 @@ The vocabWord "${vocabWord}" was the special bonus word the student was asked to
     { role: 'user', content: `Student messages:\n${transcript}` },
   ];
 
-  const raw = await sendChat(messages);
+  const raw = await sendChat(messages, 'json');
 
-  // Try to extract JSON from the raw response
-  const match = raw.match(/\{[\s\S]*\}/);
-  if (!match) throw new Error('No JSON');
-  const parsed = JSON.parse(match[0]);
+  const parsed = JSON.parse(raw);
+  
+  const g = Number(parsed.grammar) || 1;
+  const n = Number(parsed.naturalness) || 1;
+
   return {
-    grammar: Math.min(10, Math.max(1, Number(parsed.grammar))),
-    naturalness: Math.min(10, Math.max(1, Number(parsed.naturalness))),
-    grammarNote: parsed.grammarNote ?? '',
-    naturalnessNote: parsed.naturalnessNote ?? '',
+    grammar: Math.min(10, Math.max(1, g)),
+    naturalness: Math.min(10, Math.max(1, n)),
+    grammarNote: parsed.grammarNote || '',
+    naturalnessNote: parsed.naturalnessNote || '',
   };
 }
 
@@ -139,15 +140,22 @@ const ConversationPage: React.FC<ConversationPageProps> = ({ language, scenarioI
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
 
-  // Trigger review when goal is reached
+  const allDone = completedGoals.every(Boolean);
+
+  // Trigger review when goal is reached or all subgoals are completed
   useEffect(() => {
-    if (!goalReached || messages.length === 0) return;
+    if (!(goalReached || allDone) || messages.length === 0) return;
+    if (review || isReviewing) return; // Prevent duplicate review runs
+
     setIsReviewing(true);
     requestReview(messages, language, vocabTask.word)
       .then(setReview)
-      .catch(() => setReview(null))
+      .catch((err) => {
+        console.error('AI Review Error:', err);
+        setReview(null);
+      })
       .finally(() => setIsReviewing(false));
-  }, [goalReached]);
+  }, [goalReached, allDone, review, isReviewing]);
 
   const handleSend = async () => {
     const text = input.trim();
@@ -187,8 +195,6 @@ const ConversationPage: React.FC<ConversationPageProps> = ({ language, scenarioI
     setVocabUsed(false);
     setReview(null);
   };
-
-  const allDone = completedGoals.every(Boolean);
 
   return (
     <div className="page convo-page">
@@ -298,12 +304,12 @@ const ConversationPage: React.FC<ConversationPageProps> = ({ language, scenarioI
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-          disabled={isLoading || goalReached}
+          disabled={isLoading || goalReached || allDone}
         />
         <button
           className="send-btn"
           onClick={handleSend}
-          disabled={isLoading || goalReached || !input.trim()}
+          disabled={isLoading || goalReached || allDone || !input.trim()}
         >
           {isLoading ? '...' : '→'}
         </button>
@@ -379,7 +385,7 @@ const ConversationPage: React.FC<ConversationPageProps> = ({ language, scenarioI
                 </div>
               )}
 
-              {!isReviewing && !review && goalReached && (
+              {!isReviewing && !review && (goalReached || allDone) && (
                 <p className="review-error">Could not load review. Make sure Ollama is running.</p>
               )}
             </div>

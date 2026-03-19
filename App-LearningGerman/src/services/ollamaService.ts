@@ -6,7 +6,7 @@ export interface OllamaMessage {
   content: string;
 }
 
-export async function sendChat(messages: OllamaMessage[]): Promise<string> {
+export async function sendChat(messages: OllamaMessage[], format?: 'json'): Promise<string> {
   const response = await fetch(`${OLLAMA_BASE_URL}/api/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -14,6 +14,7 @@ export async function sendChat(messages: OllamaMessage[]): Promise<string> {
       model: OLLAMA_MODEL,
       messages,
       stream: false,
+      ...(format ? { format } : {}),
     }),
   });
 
