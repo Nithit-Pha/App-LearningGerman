@@ -8,6 +8,8 @@ import PracticePage from './pages/PracticePage';
 import PartsPage from './pages/PartsPage';
 import ScenarioPage from './pages/ScenarioPage';
 import ConversationPage from './pages/ConversationPage';
+import StoryMenuPage from './pages/StoryMenuPage';
+import StoryPage from './pages/StoryPage';
 
 const App: React.FC = () => {
   const [mode, setMode] = useState<AppMode>('language');
@@ -26,6 +28,8 @@ const App: React.FC = () => {
     setActivity(act);
     if (act === 'conversation') {
       setMode('scenario');
+    } else if (act === 'story') {
+      setMode('story-menu');
     } else {
       setMode('parts');
     }
@@ -83,6 +87,19 @@ const App: React.FC = () => {
       )}
       {mode === 'conversation' && scenarioId && (
         <ConversationPage language={language} scenarioId={scenarioId} onBack={() => setMode('scenario')} />
+      )}
+      {mode === 'story-menu' && (
+        <StoryMenuPage
+          language={language}
+          onBack={() => setMode('home')}
+          onSelectTheme={(id) => {
+            setScenarioId(id);
+            setMode('story-chat');
+          }}
+        />
+      )}
+      {mode === 'story-chat' && scenarioId && (
+        <StoryPage language={language} themeId={scenarioId} onBack={() => setMode('home')} />  
       )}
     </div>
   );

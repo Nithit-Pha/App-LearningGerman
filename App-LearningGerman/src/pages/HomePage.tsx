@@ -68,6 +68,20 @@ const HomePage: React.FC<HomePageProps> = ({ language, onSelectMode, onChangeLan
           </div>
           <div className="card-arrow">→</div>
         </button>
+
+        <button className="mode-card card-story" onClick={() => onSelectMode('story')}>
+          <div className="card-icon" style={{ color: '#8b5cf6', background: 'rgba(139, 92, 246, 0.1)' }}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="1.5">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
+            </svg>
+          </div>
+          <div className="card-label">
+            <span className="card-number">04</span>
+            <h2 style={{ color: '#8b5cf6' }}>Story Mode</h2>
+            <p>Go with the flow in open-ended themed discussions</p>
+          </div>
+          <div className="card-arrow" style={{ color: '#8b5cf6' }}>→</div>
+        </button>
       </div>
 
       <div className="stats-bar">
@@ -77,13 +91,13 @@ const HomePage: React.FC<HomePageProps> = ({ language, onSelectMode, onChangeLan
         </div>
         <div className="stat-divider" />
         <div className="stat">
-          <span className="stat-value">3</span>
+          <span className="stat-value">4</span>
           <span className="stat-label">Modes</span>
         </div>
         <div className="stat-divider" />
         <div className="stat">
-          <span className="stat-value">6</span>
-          <span className="stat-label">Scenarios</span>
+          <span className="stat-value">4</span>
+          <span className="stat-label">Themes</span>
         </div>
       </div>
     </div>

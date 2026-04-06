@@ -1,6 +1,6 @@
 export type Language = 'de' | 'en';
-export type AppMode = 'home' | 'language' | 'parts' | 'vocab' | 'practice' | 'scenario' | 'conversation';
-export type ActivityType = 'vocab' | 'practice' | 'conversation';
+export type AppMode = 'home' | 'language' | 'parts' | 'vocab' | 'practice' | 'scenario' | 'conversation' | 'story-menu' | 'story-chat' | 'story';
+export type ActivityType = 'vocab' | 'practice' | 'conversation' | 'story';
 
 export interface ChatMessage {
   role: 'user' | 'assistant';
