@@ -35,7 +35,10 @@ const StoryPage: React.FC<StoryPageProps> = ({ language, themeId, onBack }) => {
       .then((reply) => {
         setMessages([{ role: 'assistant', content: reply }]);
       })
-      .catch(() => setError('Could not connect to Ollama. Make sure it is running: ollama serve'))
+      .catch((err) => {
+        console.error(err);
+        setError(err instanceof Error && err.message.includes('not found') ? err.message : 'Could not connect to Ollama. Make sure your Docker container is running and OLLAMA_ORIGINS is set.');
+      })
       .finally(() => setIsLoading(false));
   }, [initialized, story.systemPrompt]);
 
@@ -57,8 +60,9 @@ const StoryPage: React.FC<StoryPageProps> = ({ language, themeId, onBack }) => {
     try {
       const reply = await sendChat(buildHistory(newMessages));
       setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
-    } catch {
-      setError('Ollama is not responding. Make sure it is running: ollama serve');
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error && err.message.includes('not found') ? err.message : 'Ollama is not responding. Make sure your Docker container is running.');
     } finally {
       setIsLoading(false);
     }

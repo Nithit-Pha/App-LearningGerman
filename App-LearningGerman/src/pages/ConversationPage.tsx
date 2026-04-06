@@ -132,7 +132,10 @@ const ConversationPage: React.FC<ConversationPageProps> = ({ language, scenarioI
         setMessages([{ role: 'assistant', content: clean }]);
         setCompletedGoals(newCompleted);
       })
-      .catch(() => setError('Could not connect to Ollama. Make sure it is running: ollama serve'))
+      .catch((err) => {
+        console.error(err);
+        setError(err instanceof Error && err.message.includes('not found') ? err.message : 'Could not connect to Ollama. Make sure your Docker container is running and OLLAMA_ORIGINS is set properly.');
+      })
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -179,8 +182,9 @@ const ConversationPage: React.FC<ConversationPageProps> = ({ language, scenarioI
       setCompletedGoals(newCompleted);
       setMessages((prev) => [...prev, { role: 'assistant', content: clean }]);
       if (reached) setGoalReached(true);
-    } catch {
-      setError('Ollama is not responding. Make sure it is running: ollama serve');
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error && err.message.includes('not found') ? err.message : 'Ollama is not responding. Make sure your Docker container is running.');
     } finally {
       setIsLoading(false);
     }
