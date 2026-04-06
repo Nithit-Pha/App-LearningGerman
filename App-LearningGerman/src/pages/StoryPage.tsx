@@ -14,6 +14,7 @@ const StoryPage: React.FC<StoryPageProps> = ({ language, themeId, onBack }) => {
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
+  const [actionType, setActionType] = useState<'say' | 'do' | 'story'>('say');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [initialized, setInitialized] = useState(false);
@@ -50,7 +51,16 @@ const StoryPage: React.FC<StoryPageProps> = ({ language, themeId, onBack }) => {
     const text = input.trim();
     if (!text || isLoading) return;
 
-    const userMsg: ChatMessage = { role: 'user', content: text };
+    let formattedText = text;
+    if (language === 'de') {
+      if (actionType === 'say') formattedText = `Du sagst: "${text}"`;
+      if (actionType === 'do') formattedText = `Du ${text}`;
+    } else {
+      if (actionType === 'say') formattedText = `You say: "${text}"`;
+      if (actionType === 'do') formattedText = `You ${text}`;
+    }
+
+    const userMsg: ChatMessage = { role: 'user', content: formattedText };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
     setInput('');
@@ -122,39 +132,74 @@ const StoryPage: React.FC<StoryPageProps> = ({ language, themeId, onBack }) => {
         </div>
       )}
 
-      {/* Messages */}
-      <div className="chat-window" style={{ flexGrow: 1, overflowY: 'auto' }}>
+      {/* Novel Messages */}
+      <div className="novel-window" style={{ 
+        flexGrow: 1, 
+        overflowY: 'auto', 
+        padding: '2rem 10%', 
+        margin: '0',
+        fontFamily: 'Georgia, "Times New Roman", serif',
+        lineHeight: '1.8',
+        fontSize: '1.15rem',
+        borderTop: '1px solid #e2e8f0',
+        borderBottom: '1px solid #e2e8f0'
+      }}>
         {messages.map((msg, i) => (
-          <div key={i} className={`chat-bubble-row ${msg.role}`}>
-            {msg.role === 'assistant' && (
-              <div className="bubble-avatar" style={{ backgroundColor: '#8b5cf6' }}>{story.icon}</div>
-            )}
-            <div className={`chat-bubble ${msg.role}`} style={msg.role === 'assistant' ? { borderLeftColor: '#8b5cf6' } : {}}>
-              {msg.content}
-            </div>
-            {msg.role === 'user' && (
-              <div className="bubble-avatar user-avatar">{language === 'de' ? 'Du' : 'You'}</div>
+          <div key={i} style={{ marginBottom: '1.2rem' }}>
+            {msg.role === 'user' ? (
+              <p style={{ 
+                fontStyle: 'italic', 
+                color: '#5b21b6', 
+                margin: '1rem 0',
+                paddingLeft: '1.5rem',
+                borderLeft: '3px solid #8b5cf6',
+                opacity: 0.9
+              }}>
+                {msg.content}
+              </p>
+            ) : (
+              <p style={{ margin: 0, textIndent: '2rem' }}>
+                {msg.content}
+              </p>
             )}
           </div>
         ))}
 
         {isLoading && (
-          <div className="chat-bubble-row assistant">
-            <div className="bubble-avatar" style={{ backgroundColor: '#8b5cf6' }}>{story.icon}</div>
-            <div className="chat-bubble assistant typing-indicator">
-              <span /><span /><span />
-            </div>
+          <div style={{ fontStyle: 'italic', color: '#a0aec0', marginBottom: '1.2rem', textIndent: '2rem' }}>
+            ...
           </div>
         )}
         <div ref={bottomRef} />
       </div>
 
       {/* Input */}
-      <div className="chat-input-row" style={{ marginTop: 'auto' }}>
+      <div className="chat-input-row" style={{ marginTop: 'auto', display: 'flex', gap: '8px', alignItems: 'center' }}>
+        <select
+          value={actionType}
+          onChange={(e) => setActionType(e.target.value as any)}
+          disabled={isLoading}
+          style={{
+            padding: '12px 14px',
+            borderRadius: '12px',
+            border: '2px solid #e2e8f0',
+            backgroundColor: '#ffffff',
+            fontSize: '1rem',
+            fontWeight: 500,
+            cursor: 'pointer',
+            color: '#4b5563',
+            outline: 'none'
+          }}
+        >
+          <option value="say">🗣️ {language === 'de' ? 'Sagen' : 'Say'}</option>
+          <option value="do">🏃 {language === 'de' ? 'Tun' : 'Do'}</option>
+          <option value="story">📖 {language === 'de' ? 'Story' : 'Story'}</option>
+        </select>
         <input
           className="chat-input"
           type="text"
-          placeholder={language === 'de' ? 'Schreib auf Deutsch...' : 'Type in English...'}
+          style={{ flexGrow: 1 }}
+          placeholder={actionType === 'say' ? (language === 'de' ? '"Guten Tag!"' : '"Hello there!"') : actionType === 'do' ? (language === 'de' ? 'gehst zur Tür...' : 'walk to the door...') : (language === 'de' ? 'Plötzlich passierte...' : 'Suddenly, a loud noise...')}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}
@@ -164,7 +209,7 @@ const StoryPage: React.FC<StoryPageProps> = ({ language, themeId, onBack }) => {
           className="send-btn"
           onClick={handleSend}
           disabled={isLoading || !input.trim()}
-          style={{ backgroundColor: '#8b5cf6' }}
+          style={{ backgroundColor: '#8b5cf6', flexShrink: 0 }}
         >
           {isLoading ? '...' : '→'}
         </button>
