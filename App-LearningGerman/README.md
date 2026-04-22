@@ -1,6 +1,6 @@
 # VocabLab
 
-A language learning app with three modes: Flashcards, Quiz, and AI Conversation.
+A language learning app with four modes: Flashcards, Quiz, AI Conversation, and Story Mode.
 
 Built with **React 18 + TypeScript + Vite**.
 
@@ -37,7 +37,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ### 🌐 Language Selection
 Choose your target language on startup:
 - 🇩🇪 **German** — German words with English translations
-- 🇬🇧 **English** — English words with Thai translations (ภาษาไทย)
+- 🇬🇧 **English** — English words with easier English synonyms
 
 Switch languages anytime from the Home screen.
 
@@ -79,7 +79,22 @@ Each scenario has **3 sub-goals** to complete:
 
 Each sub-goal checks off with a ✓ tick in real time as the AI detects you've achieved it. When all three are done, a 🎉 success overlay appears.
 
-#### Ollama Setup (required for Conversation mode)
+---
+
+### 04 · Story Mode (AI-powered)
+Immersive, open-ended roleplay conversations where you shape the story dynamically.
+
+#### Themes
+| Icon | Theme | English Equivalent |
+|------|-------|--------------------|
+| 🐉 | Fantasywelt | Fantasy World |
+| 🦸‍♂️ | Mein Held | My Hero |
+| 🕵️ | Krimi | Mystery Detective |
+| ☕ | Alltag | Everyday Life |
+
+Unlike Conversation mode, Story Mode has no strict sub-goals—just explore and enjoy a dynamic exchange!
+
+#### Ollama Setup (required for AI modes)
 1. [Download & install Ollama](https://ollama.com)
 2. Pull the model:
    ```bash
@@ -105,7 +120,8 @@ vocablab/
     │   └── index.ts          # Language, AppMode, Vocab, ChatMessage, etc.
     ├── data/
     │   ├── vocabs.ts         # German & English vocab lists + getVocabs(lang)
-    │   └── scenarios.ts      # German & English scenarios + getScenarios(lang)
+    │   ├── scenarios.ts      # German & English scenarios + getScenarios(lang)
+    │   └── stories.ts        # German & English story themes + getStories(lang)
     ├── services/
     │   └── ollamaService.ts  # Ollama API client (POST /api/chat)
     ├── components/
@@ -117,7 +133,9 @@ vocablab/
         ├── VocabPage.tsx        # Flashcard mode
         ├── PracticePage.tsx     # Quiz mode
         ├── ScenarioPage.tsx     # Conversation scenario picker
-        └── ConversationPage.tsx # AI chat with sub-goal checklist
+        ├── ConversationPage.tsx # AI chat with sub-goal checklist
+        ├── StoryMenuPage.tsx    # Story theme selector
+        └── StoryPage.tsx        # Open-ended AI roleplay chat
 ```
 
 ---
@@ -143,6 +161,22 @@ Edit `src/data/scenarios.ts` and append to `germanScenarios` or `englishScenario
   goal: 'Open an account',
   subGoals: ['Ask about account types', 'Provide your ID', '🎁 Special: Ask about the interest rate'],
   systemPrompt: `You are a German bank clerk. Speak ONLY in German. ...`,
+}
+```
+
+---
+
+## Adding Stories
+
+Edit `src/data/stories.ts` and append to `germanStories` or `englishStories`:
+
+```ts
+{
+  id: 'space',
+  title: 'Weltraum',
+  icon: '🚀',
+  context: 'Duwachst auf einem Raumschiff auf...',
+  systemPrompt: `You are the ship's AI...`,
 }
 ```
 
